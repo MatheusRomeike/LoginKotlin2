@@ -1,6 +1,7 @@
 package com.example.login
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -16,14 +17,21 @@ class SecondActivity : ComponentActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var saveButton: Button
+    private lateinit var redirectRegisterButton: Button
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.second_activity)
 
+        sharedPreferences = getSharedPreferences("user_credentials", MODE_PRIVATE)
+
+
         usernameEditText = findViewById(R.id.usernameET)
         passwordEditText = findViewById(R.id.passwordET)
         saveButton = findViewById(R.id.saveB)
+        redirectRegisterButton = findViewById(R.id.redirectRegisterB)
 
         saveButton.isEnabled = false
         usernameEditText.addTextChangedListener { checkCamposPreenchidos() }
@@ -34,6 +42,11 @@ class SecondActivity : ComponentActivity() {
             val novaPassword = passwordEditText.text.toString()
 
             salvarCredenciais(novoUsername, novaPassword)
+        }
+
+        redirectRegisterButton.setOnClickListener {
+            val intent = Intent(this, ThirtyActivity::class.java)
+            startActivity(intent)
         }
     }
 
